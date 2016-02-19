@@ -1,12 +1,17 @@
 swagger: "2.0"
 info:
   version: "0.0.1"
-  title: Hello World App
+  title: Travel API
 # during dev, should point to your local machine
 host: localhost:10010
 # basePath prefixes all resource paths 
 basePath: /
 # 
+tags:
+    - name: City
+      description: City information related API
+    - name: Flights
+      description: Flight information related API  
 schemes:
   # tip: remove http to make production-grade
   - http
@@ -18,25 +23,22 @@ consumes:
 produces:
   - application/json
 paths:
-  /hello:
+  /getCities:
     # binds a127 app logic to a route
-    x-swagger-router-controller: hello_world
+    x-swagger-router-controller: get_cities
     get:
-      description: Returns 'Hello' to the caller
+      description: Returns a list of cities from the database
       # used as the method name of the controller
-      operationId: hello
-      parameters:
-        - name: name
-          in: query
-          description: The name of the person to whom to say hello
-          required: false
-          type: string
+      operationId: getCities
+      produces:
+          - "application/json"
       responses:
         "200":
           description: Success
           schema:
-            # a pointer to a definition
-            $ref: "#/definitions/HelloWorldResponse"
+            type: array
+            items:
+              $ref: "#/definitions/getCitiesResponse"
         # responses may fall through to errors
         default:
           description: Error
@@ -46,7 +48,7 @@ paths:
     x-swagger-pipe: swagger_raw
 # complex objects have schema definitions
 definitions:
-  HelloWorldResponse:
+  getCitiesResponse:
     required:
       - message
     properties:
