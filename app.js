@@ -2,7 +2,17 @@
 
 var SwaggerExpress = require('swagger-express-mw');
 var app = require('express')();
+var bodyParser = require('body-parser');
+app.use(bodyParser.json());
+
 module.exports = app; // for testing
+var mongoose = require('mongoose');
+mongoose.connect('mongodb://localhost:27017/travel');
+var db = mongoose.connection;
+db.on('error', console.error.bind(console, 'connection error:'));
+db.once('open', function (callback) {
+  console.log("connected!!");
+});
 
 var config = {
   appRoot: __dirname // required config

@@ -27,6 +27,8 @@ paths:
     # binds a127 app logic to a route
     x-swagger-router-controller: get_cities
     get:
+      tags:
+       - City
       description: Returns a list of cities from the database
       # used as the method name of the controller
       operationId: getCities
@@ -44,16 +46,135 @@ paths:
           description: Error
           schema:
             $ref: "#/definitions/ErrorResponse"
+  /addCities:
+    x-swagger-router-controller: add_cities
+    post:
+      tags:
+        - City
+      description: Add a city to the Database
+      operationId: addCities
+      produces:
+          - "application/json"
+      parameters:
+          - name: CityRequest
+            description: Parameters accepted by the addCities API
+            required: true
+            in: body
+            schema:
+              $ref: "#/definitions/addCitiesRequest"
+              
+      responses:
+        "200":
+          description: Success
+          schema:
+            type: string
+            
+  /addFlights:
+    x-swagger-router-controller: add_flight
+    post:
+      tags:
+        - Flights
+      description: Adding Flight Data 
+      operationId: addFlights
+      produces:
+          - "application/json"
+      parameters:
+          - name: FlightData
+            description: Parameters accepted by the addFlights API
+            required: true
+            in: body
+            schema:
+              $ref: "#/definitions/addFlightRequest"
+      responses:
+        "200":
+          description: Success
+          schema:
+            type: string
+      
+  /getFlight:
+    x-swagger-router-controller: get_flight
+    get:
+      tags:
+        - Flights
+      description: Returns Flight data between the departure and arrival cities.
+      operationId: getFlight
+      produces:
+          - "application/json"
+      parameters:
+          - name: departure_city
+            description: Name of city from which flight should depart
+            required: true
+            in: query
+            type: string
+          - name: arrival_city
+            description: Name of  city where the flight should land
+            required: true
+            in: query
+            type: string
+            
+            
+      responses:
+        "200":
+          description: Success
+          schema:
+            type: array
+            items:
+              $ref: "#/definitions/addFlightRequest"
+      
   /swagger:
     x-swagger-pipe: swagger_raw
 # complex objects have schema definitions
 definitions:
-  getCitiesResponse:
-    required:
-      - message
+  addCitiesRequest:
+    type: object
     properties:
-      message:
+      city_name: 
         type: string
+        description: Name of the City
+      city_code:
+        type: string
+        description: Airport Code
+        
+  getCitiesResponse:
+    type: object
+    properties:
+      city_name:
+        type: string
+        description: Name of security
+      city_code:
+        type: string
+        description: Airport Code
+        
+  
+  
+  addFlightRequest:
+    type: object
+    properties:
+      airline_name:
+        type: string
+        description: Name of Airline
+      carrier_code:
+        type: string
+        description: Carrier code of the Airline
+      flight_number:
+        type: number
+        description: Flight Number
+      departure_city:
+        type: string
+        description: Name of City where flight departs from
+      arrival_city:
+        type: string
+        description: Name of City where the flight lands.
+      departure_time:
+        type: number
+        description: Time in ms when the flight departs
+      arrival_time:
+        type: number
+        description: Time in ms when the flight lands
+      ticket_price:
+        type: number
+        description: Cost of Flight Ticket
+      
   ErrorResponse:
     required:
       - message
