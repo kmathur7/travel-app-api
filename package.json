@@ -14,8 +14,15 @@
     "swagger-express-mw": "^0.1.0"
   },
   "devDependencies": {
+    "chai": "^3.5.0",
+    "mocha": "^2.4.5",
+    "redis": "^2.5.2",
     "should": "^7.1.0",
-    "supertest": "^1.0.0"
+    "sinon": "^1.17.3",
+    "supertest": "^1.0.0",
+    "z-schema": "^3.12.0",
+    "request": "^2.58.0",
+    "dotenv": "^1.2.0"
   },
   "scripts": {
     "start": "node app.js",
